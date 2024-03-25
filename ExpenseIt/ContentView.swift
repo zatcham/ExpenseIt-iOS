@@ -8,19 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showLoginPage: Bool = false
+    @State private var showGalleryPage: Bool = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        ZStack{
+            
+            //camera placeholder
+            
+            HomeView(showLoginPage: $showLoginPage, showGalleryPage: $showGalleryPage)
+            
         }
-        .padding()
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }

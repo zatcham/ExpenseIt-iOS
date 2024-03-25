@@ -15,3 +15,7 @@ struct ExpenseItApp: App {
         }
     }
 }
+
+#Preview{
+    ContentView()
+}
