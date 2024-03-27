@@ -58,6 +58,8 @@ func sendPostRequestWithAlamofire(username: String, password: String) {
         "password": password
     ]
     
+    let service = "com.expenseit.ios"
+    
     let apiURL = "https://expenseit.tech/api/login_check"
 
     AF.request("https://expenseit.tech/api/login_check", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: ["Accept": "application/json"]).responseDecodable(of: Tokens.self) { response in
@@ -65,11 +67,20 @@ func sendPostRequestWithAlamofire(username: String, password: String) {
         case .success(let value):
             token = value.token
             refresh_token = value.refresh_token
-//            print ("Token \(value.token)")
-//            print ("Refresh Token \(value.refresh_token)")
-            print (token)
-//            print("Response JSON: \(value)")
-//            print(response)
+            let tokens = Tokens(
+                refresh_token: value.refresh_token, token: value.token
+            )
+            
+            // Save to keychain
+            KeychainHelper.standard.save(tokens, service: service, account: username)
+            
+            let result = KeychainHelper.standard.read(service: service, account: username, type: Tokens.self)!
+            
+            print (result.token)
+            print (result.refresh_token)
+            print (NSDate().timeIntervalSince1970)
+//            print (result.timestamp)
+
         case .failure(let error):
             print("Error: \(error.localizedDescription)")
         }
@@ -77,7 +88,9 @@ func sendPostRequestWithAlamofire(username: String, password: String) {
 }
 
 
-struct Tokens: Codable{
+struct Tokens: Codable {
+    
         var refresh_token: String
         var token: String
+//        var timestamp: TimeInterval
 }
