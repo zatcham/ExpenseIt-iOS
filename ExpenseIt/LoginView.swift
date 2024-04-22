@@ -117,3 +117,7 @@ struct Tokens: Codable {
     var token: String
     var fetchedAt: Date
 }
+
+#Preview {
+    LoginView();
+}
