@@ -22,6 +22,13 @@ struct LoginView: View {
             
             Image("expenseit")
             
+            Text("Welcome")
+                .font(.system(size: 28))
+//                .bold()
+                .underline()
+            
+            Divider()
+            
             TextField("Email Address",text: $username)
             .textInputAutocapitalization(.never)
             .disableAutocorrection(true)
@@ -29,6 +36,7 @@ struct LoginView: View {
             .padding(.trailing, 50)
             .padding(.leading, 50)
             .cornerRadius(25)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
             
             SecureField("Password",text: $password)
             .textInputAutocapitalization(.never)
@@ -37,10 +45,24 @@ struct LoginView: View {
             .padding(.trailing, 50)
             .padding(.leading, 50)
             
-            Button("Log In"){
-                sendPostRequestWithAlamofire(username: username, password: password)
-            }
-
+            
+            Button {
+                doLoginPost(username: username, password: password) { (tokens, error) in
+                    if let error = error {
+                        print ("Error occured doing login: \(error)")
+                    } else {
+                        print ("login was ok")
+//                        TODO : Add success message for user
+                    }
+                }
+            } label: {
+                HStack {
+                    Image(systemName: "person.badge.key")
+                    Text("Log In")
+                }
+            }.buttonStyle(.borderedProminent)
+            
+    
         }
         .textFieldStyle(RoundedBorderTextFieldStyle())
         
@@ -48,28 +70,41 @@ struct LoginView: View {
     }
 }
 
-var token = ""
-var refresh_token = ""
 
-func sendPostRequestWithAlamofire(username: String, password: String) {
+func doLoginPost(username: String, password: String, completion: @escaping (Tokens?, Error?) -> Void) {
     
     let parameters: [String: Any] = [
         "email": username,
         "password": password
     ]
     
+    let service = "com.expenseit.ios"
+    
     let apiURL = "https://expenseit.tech/api/login_check"
 
-    AF.request("https://expenseit.tech/api/login_check", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: ["Accept": "application/json"]).responseDecodable(of: Tokens.self) { response in
+    AF.request(apiURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: ["Accept": "application/json"]).responseJSON { response in
         switch response.result {
         case .success(let value):
-            token = value.token
-            refresh_token = value.refresh_token
-//            print ("Token \(value.token)")
-//            print ("Refresh Token \(value.refresh_token)")
-            print (token)
-//            print("Response JSON: \(value)")
-//            print(response)
+            
+            if let json = value as? [String: Any],
+            let token = json["token"] as? String,
+            let refreshToken = json["refresh_token"] as? String {
+                // Create tokens from struct
+                let tokens = Tokens(refresh_token : refreshToken, token: token, fetchedAt: Date())
+                // Save to keychain
+                KeychainHelper.standard.save(tokens, service: service, account: username)
+                
+                let result = KeychainHelper.standard.read(service: service, account: username, type: Tokens.self)!
+                
+                print (result.token)
+                print (result.refresh_token)
+                print (result.fetchedAt)
+            }
+
+            
+
+//            print (result.timestamp)
+
         case .failure(let error):
             print("Error: \(error.localizedDescription)")
         }
@@ -77,7 +112,8 @@ func sendPostRequestWithAlamofire(username: String, password: String) {
 }
 
 
-struct Tokens: Codable{
-        var refresh_token: String
-        var token: String
+struct Tokens: Codable {
+    var refresh_token: String
+    var token: String
+    var fetchedAt: Date
 }

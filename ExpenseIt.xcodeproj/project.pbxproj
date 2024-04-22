@@ -20,6 +20,8 @@
 		8ED4AAA52B71239B00EF8509 /* ExpenseItUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED4AAA42B71239B00EF8509 /* ExpenseItUITestsLaunchTests.swift */; };
 		8EE04C602B96405B001E7396 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 8EE04C5F2B96405B001E7396 /* SwiftyJSON */; };
 		8EE04C622B966CA1001E7396 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE04C612B966CA1001E7396 /* GalleryView.swift */; };
+		B4C83B742BB4307C0099345D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C83B732BB4307C0099345D /* Security.framework */; };
+		B4C83B762BB430A10099345D /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C83B752BB430A10099345D /* KeychainHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		8ED4AAA22B71239B00EF8509 /* ExpenseItUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseItUITests.swift; sourceTree = "<group>"; };
 		8ED4AAA42B71239B00EF8509 /* ExpenseItUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseItUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8EE04C612B966CA1001E7396 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
+		B4C83B732BB4307C0099345D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		B4C83B752BB430A10099345D /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4C83B742BB4307C0099345D /* Security.framework in Frameworks */,
 				8EE04C602B96405B001E7396 /* SwiftyJSON in Frameworks */,
 				8E413B432B7FC2E100540AA8 /* Alamofire in Frameworks */,
 			);
@@ -90,6 +95,7 @@
 				8ED4AA972B71239B00EF8509 /* ExpenseItTests */,
 				8ED4AAA12B71239B00EF8509 /* ExpenseItUITests */,
 				8ED4AA852B71239700EF8509 /* Products */,
+				B4C83B722BB4307C0099345D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,6 +120,7 @@
 				8EE04C612B966CA1001E7396 /* GalleryView.swift */,
 				8ED4AA8B2B71239A00EF8509 /* Assets.xcassets */,
 				8ED4AA8D2B71239A00EF8509 /* Preview Content */,
+				B4C83B752BB430A10099345D /* KeychainHelper.swift */,
 			);
 			path = ExpenseIt;
 			sourceTree = "<group>";
@@ -141,6 +148,14 @@
 				8ED4AAA42B71239B00EF8509 /* ExpenseItUITestsLaunchTests.swift */,
 			);
 			path = ExpenseItUITests;
+			sourceTree = "<group>";
+		};
+		B4C83B722BB4307C0099345D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B4C83B732BB4307C0099345D /* Security.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,6 +300,7 @@
 				8EE04C622B966CA1001E7396 /* GalleryView.swift in Sources */,
 				8E2ED4D92B766E95001C8F4B /* ButtonView.swift in Sources */,
 				8E2ED4DB2B767200001C8F4B /* LoginView.swift in Sources */,
+				B4C83B762BB430A10099345D /* KeychainHelper.swift in Sources */,
 				8E413B402B7E241400540AA8 /* CameraView.swift in Sources */,
 				8ED4AA882B71239700EF8509 /* ExpenseItApp.swift in Sources */,
 			);
